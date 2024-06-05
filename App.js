@@ -1,4 +1,4 @@
-import LoginScreen from './src/LoginScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 export default function App() {
   return <LoginScreen />

@@ -22,7 +22,8 @@ const LoginScreen = ({ navigation }) => {
         source={require('../../assets/login-background.png')} 
         style={styles.image}
         />
-            <Text style={styles.title}>Sign In</Text>
+          <View style={styles.form}>
+            <Text style={styles.title}>Login</Text>
             <TextInput
             style={styles.input}
             placeholder="Email"
@@ -41,11 +42,12 @@ const LoginScreen = ({ navigation }) => {
             onChangeText={setPassword}
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.registerText}>Don't have an account? Sign up</Text>
+            <Text style={styles.registerText}>Não possue uma conta? Cadastre-se</Text>
             </TouchableOpacity>
+            </View>
         </View>
   );
 };
@@ -53,16 +55,16 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
     backgroundColor: '#fff',
   },
   image: {
-    width: 360,
-    height: 173,
-    resizeMode: 'contain',
-    position: 'absolute',
-    top: 0,
+    width: '100%',
+    resizeMode: 'cover',
+  },
+  form: {
+    position:'relative',
+    marginTop: 20,
+    padding: 20,
   },
   title: {
     fontSize: 24,

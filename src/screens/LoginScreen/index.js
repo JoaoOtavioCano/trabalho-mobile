@@ -8,11 +8,11 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = () => {
     // Lógica de autenticação (pode ser substituída com a lógica real)
     if (email === 'user@example.com' && password === 'password') {
-      Alert.alert('Login Successful');
+      Alert.alert('Login Bem Sucedido!');
       // Navegar para a tela principal após login bem-sucedido
       navigation.navigate('Main');
     } else {
-      Alert.alert('Invalid email or password');
+      Alert.alert('E-mail ou Senha inválidos!');
     }
   };
 
@@ -25,27 +25,27 @@ const LoginScreen = ({ navigation }) => {
           <View style={styles.form}>
             <Text style={styles.title}>Login</Text>
             <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#aaa"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
+              style={styles.input}
+              placeholder="E-mail"
+              placeholderTextColor="#aaa"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={setEmail}
             />
             <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#aaa"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
+              style={styles.input}
+              placeholder="Senha"
+              placeholderTextColor="#aaa"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Entrar</Text>
+              <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.registerText}>Não possue uma conta? Cadastre-se</Text>
+              <Text style={styles.registerText}>Não possue uma conta? Cadastre-se</Text>
             </TouchableOpacity>
             </View>
         </View>

@@ -11,65 +11,63 @@ const RegisterScreen = ({ navigation }) => {
 
 
   const handleAccountCreation = () => {
-    if ( emailRegex.test(email)) {
-        if (password === confimrPassword){
+    if (emailRegex.test(email)) {
+        if (password === confimrPassword) {
             navigation.navigate('Main');
-        }else {
+        } else {
             Alert.alert('Campos "Senha" e "Confirme senha" estão diferentes!');
         }
     } else {
-      Alert.alert('Email inválido!');
+      Alert.alert('E-mail inválido!');
     }
   };
 
   return (
-        <View 
-        style={styles.container}
-        >
+        <View style={styles.container}>
             <Image 
-            source={require('../../assets/login-background.png')} 
-            style={styles.image}
+              source={require('../../assets/login-background.png')} 
+              style={styles.image}
             />
             <View style={styles.form}>
                 <Text style={styles.title}>Criar conta</Text>
                     <TextInput
-                    style={styles.input}
-                    placeholder="Nome"
-                    placeholderTextColor="#aaa"
-                    autoCapitalize="none"
-                    value={name}
-                    onChangeText={setName}
+                      style={styles.input}
+                      placeholder="Nome"
+                      placeholderTextColor="#aaa"
+                      autoCapitalize="none"
+                      value={name}
+                      onChangeText={setName}
                     />
                     <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    placeholderTextColor="#aaa"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    value={email}
-                    onChangeText={setEmail}
+                      style={styles.input}
+                      placeholder="E-mail"
+                      placeholderTextColor="#aaa"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      value={email}
+                      onChangeText={setEmail}
                     />
                     <TextInput
-                    style={styles.input}
-                    placeholder="Senha"
-                    placeholderTextColor="#aaa"
-                    secureTextEntry
-                    value={password}
-                    onChangeText={setPassword}
+                      style={styles.input}
+                      placeholder="Senha"
+                      placeholderTextColor="#aaa"
+                      secureTextEntry
+                      value={password}
+                      onChangeText={setPassword}
                     />
                     <TextInput
-                    style={styles.input}
-                    placeholder="Confirme a senha"
-                    placeholderTextColor="#aaa"
-                    secureTextEntry
-                    value={confimrPassword}
-                    onChangeText={setcConfimrPassword}
+                      style={styles.input}
+                      placeholder="Confirme a senha"
+                      placeholderTextColor="#aaa"
+                      secureTextEntry
+                      value={confimrPassword}
+                      onChangeText={setcConfimrPassword}
                     />
                     <TouchableOpacity style={styles.button} onPress={handleAccountCreation}>
-                    <Text style={styles.buttonText}>Confirmar</Text>
+                      <Text style={styles.buttonText}>Confirmar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={styles.signInText}>Possue uma conta? Entre</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                      <Text style={styles.signInText}>Possue uma conta? Entre</Text>
                     </TouchableOpacity>
             </View>
         </View>
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   form: {
-    position:'relative',
+    position: 'relative',
     marginTop: 20,
     padding: 20,
   },

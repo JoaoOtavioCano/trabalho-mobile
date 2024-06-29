@@ -4,9 +4,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import AddBankScreen from './src/screens/AddBankScreen';
 import MainScreen from './src/screens/MainScreen';
 import BankAccountsScreen from './src/screens/BankAccountsScreen';
+import AddBankScreen from './src/screens/AddBankScreen';
+import BudgetsScreen from './src/screens/BudgetsScreen';
+import AddBudgetScreen from './src/screens/AddBudgetScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,11 +27,6 @@ export default function App() {
           options={{ headerShown: false }} 
         />
         <Stack.Screen 
-          name="AddBank" 
-          component={AddBankScreen} 
-          options={{ headerShown: false }} 
-        />
-        <Stack.Screen 
           name="Main" 
           component={MainScreen} 
           options={{ headerShown: false }} 
@@ -37,6 +34,21 @@ export default function App() {
         <Stack.Screen 
           name="BankAccounts" 
           component={BankAccountsScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="AddBank" 
+          component={AddBankScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Budgets" 
+          component={BudgetsScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="AddBudget" 
+          component={AddBudgetScreen} 
           options={{ headerShown: false }} 
         />
       </Stack.Navigator>

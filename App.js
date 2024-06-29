@@ -9,6 +9,8 @@ import BankAccountsScreen from './src/screens/BankAccountsScreen';
 import AddBankScreen from './src/screens/AddBankScreen';
 import BudgetsScreen from './src/screens/BudgetsScreen';
 import AddBudgetScreen from './src/screens/AddBudgetScreen';
+import TransactionsScreen from './src/screens/TransactionsScreen';
+import AddTransactionScreen from './src/screens/AddTransactionScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +51,16 @@ export default function App() {
         <Stack.Screen 
           name="AddBudget" 
           component={AddBudgetScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Transactions" 
+          component={TransactionsScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="AddTransaction" 
+          component={AddTransactionScreen} 
           options={{ headerShown: false }} 
         />
       </Stack.Navigator>

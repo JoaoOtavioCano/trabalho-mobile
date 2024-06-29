@@ -24,11 +24,9 @@ const MainScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <View style={styles.transactionItem}>
       <MaterialCommunityIcons name="bank" size={24} color="black" />
-      <View style={styles.transactionDetails}>
-        <Text style={styles.transactionBank}>{item.bank}</Text>
-        <Text style={styles.transactionAmount}>{item.amount}</Text>
-        <Text style={styles.transactionDate}>{item.date}</Text>
-      </View>
+      <Text style={styles.transactionBank}>{item.bank}</Text>
+      <Text style={styles.transactionAmount}>{item.amount}</Text>
+      <Text style={styles.transactionDate}>{item.date}</Text>
     </View>
   );
 
@@ -218,23 +216,26 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   transactionItem: {
-    paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
-  transactionDetails: {
-    marginLeft: 16,
-  },
+
   transactionBank: {
     fontSize: 16,
+    marginLeft: 16,
     fontWeight: 'bold',
   },
   transactionAmount: {
+    marginLeft: 40,
+    marginRight: 150,
     fontSize: 16,
     color: 'gray',
   },
   transactionDate: {
+    marginLeft: 'auto',
     fontSize: 14,
     color: 'gray',
   },

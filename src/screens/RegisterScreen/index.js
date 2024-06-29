@@ -14,11 +14,12 @@ const RegisterScreen = ({ navigation }) => {
     if (emailRegex.test(email)) {
         if (password === confimrPassword) {
             navigation.navigate('Main');
+            Alert.alert('Sucesso', 'Cadastro realizado!');
         } else {
-            Alert.alert('Campos "Senha" e "Confirme senha" estão diferentes!');
+            Alert.alert('Erro', 'Campos "Senha" e "Confirme senha" estão diferentes!');
         }
     } else {
-      Alert.alert('E-mail inválido!');
+      Alert.alert('Erro', 'E-mail inválido!');
     }
   };
 
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#1A272F',
     paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {

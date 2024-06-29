@@ -1,30 +1,61 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // npm install @expo/vector-icons
 
 const AddBankScreen = ({ navigation }) => {
+
+  const [nomeBanco, setNomeBanco] = useState('');
+  const [saldo, setSaldo] = useState('');
+
+  const handleAddBank = () => {
+    if (!nomeBanco.trim() || !saldo.trim()) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
+
+    // Simulação de adicionar banco
+    Alert.alert('Sucesso', 'Conta Bancária Adicionada!');
+    navigation.navigate('BankAccounts');
+  };
+
+
+  const isValidSaldo = (value) => {
+    // Expressão regular para validar saldo (aceita números inteiros e decimais)
+    return /^[0-9]+([,.][0-9]+)?$/.test(value);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="orange" />
+          <Ionicons name="chevron-back" size={24} color="orange" />
         </TouchableOpacity>
-        <Text style={styles.title}>ADD NEW BANK</Text>
+        <Text style={styles.headerTitle}>ADICIONAR NOVO BANCO</Text>
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Bank name"
-        placeholderTextColor="#aaa"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Amount"
-        placeholderTextColor="#aaa"
-        keyboardType="numeric"
-      />
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>Add</Text>
-      </TouchableOpacity>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do Banco"
+          placeholderTextColor="#aaa"
+          value={nomeBanco}
+          onChangeText={text => setNomeBanco(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Saldo"
+          placeholderTextColor="#aaa"
+          keyboardType="numeric"
+          value={saldo}
+          onChangeText={text => setSaldo(text)}
+        />
+        <TouchableOpacity
+          style={[styles.addButton, (!nomeBanco.trim() || !saldo.trim() || !isValidSaldo(saldo)) && { backgroundColor: '#ccc' }]}
+          onPress={handleAddBank}
+          disabled={!nomeBanco.trim() || !isValidSaldo(saldo)}
+        >
+          <Text style={styles.addButtonText}>Adicionar</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity style={styles.fab}>
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
@@ -36,20 +67,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 16,
-    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    padding: 16,
+    paddingTop: 30,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
-  title: {
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 16,
+    color: '#333',
+    paddingRight: 20,
+  },
+  formContainer: {
+    position: 'absolute',
+    top: '20%',
+    width: '100%',
+    paddingHorizontal: 35,
+    alignItems: 'center',
   },
   input: {
+    width: '100%',
     height: 40,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
@@ -57,9 +101,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   addButton: {
-    backgroundColor: '#333',
-    padding: 10,
-    borderRadius: 5,
+    width: '100%',
+    backgroundColor: '#1A272F',
+    padding: 15,
+    borderRadius: 10,
     alignItems: 'center',
     marginTop: 16,
   },

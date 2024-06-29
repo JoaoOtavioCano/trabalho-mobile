@@ -7,12 +7,12 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = () => {
     // Lógica de autenticação (pode ser substituída com a lógica real)
-    if (email === 'user@example.com' && password === 'password') {
-      Alert.alert('Login Bem Sucedido!');
+    if (email === 'teste@gmail.com' && password === '12345') {
+      Alert.alert('Sucesso', 'Login bem sucedido!');
       // Navegar para a tela principal após login bem-sucedido
       navigation.navigate('Main');
     } else {
-      Alert.alert('E-mail ou Senha inválidos!');
+      Alert.alert('Erro', 'E-mail ou Senha inválidos!');
     }
   };
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#1A272F',
     paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {

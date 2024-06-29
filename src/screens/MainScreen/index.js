@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { Ionicons, FontAwesome5, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
@@ -32,6 +32,11 @@ const MainScreen = ({ navigation }) => {
     </View>
   );
 
+  const logoutUser = () => {
+    navigation.navigate('Login')
+    Alert.alert('Logout', 'Sessão encerrada.');
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -40,8 +45,8 @@ const MainScreen = ({ navigation }) => {
         ListHeaderComponent={
           <>
             <View style={styles.header}>
-              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                <Ionicons name="person-circle" size={30} color="white" />
+              <TouchableOpacity onPress={logoutUser}>
+                <MaterialCommunityIcons name="logout" size={30} color="white" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
                 <Ionicons name="notifications" size={30} color="white" />

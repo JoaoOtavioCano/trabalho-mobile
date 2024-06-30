@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; // npm install @react-native-picker/picker
 import { Ionicons } from '@expo/vector-icons'; // npm install @expo/vector-icons
+import { supabase } from '../../../lib/supabase';
+import { useSession } from '../../../App';
 
 const AddTransactionScreen = ({ navigation }) => {
 
@@ -9,12 +11,26 @@ const AddTransactionScreen = ({ navigation }) => {
   const [budgetType, setBudgetType] = useState('');
   const [bankAccount, setBankAccount] = useState('');
   const [amount, setAmount] = useState('');
+  const session = useSession();
 
-  const handleAddTransaction = () => {
+
+  async function handleAddTransaction(){
     if (!transactionName.trim() || !budgetType.trim() || !amount.trim() || !bankAccount.trim()) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
     }
+
+    // Tá mt estranho essa parte da transação, véi kkkkk
+
+    // const { error } = await supabase
+    // .from('transaction')
+    // .insert({ user_id: session?.user?.id, budget_name: budgetName, budget_limit_value: amount})
+
+    // if (error){
+    //   Alert.alert('Erro', 'Erro ao inserir dados. Tente novamente.');
+    //   navigation.navigate('Budgets');
+    //   return;
+    // }
 
     // Simulação de adicionar transação
     Alert.alert('Sucesso', 'Transação Adicionada!');

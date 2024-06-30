@@ -1,54 +1,75 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { supabase } from '../../../lib/supabase';
+import { useSession } from '../../../App';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const session = useSession();
+
+  async function signInWithEmail() {
+    setLoading(true);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      Alert.alert(error.message);
+      setLoading(false);
+    } else {
+      // Verifica se a sessão está ativa
+      const currentSession = data.session;
+      if (currentSession) {
+        Alert.alert('Sucesso', 'Login bem-sucedido!');
+        navigation.navigate('Main');
+      } else {
+        Alert.alert('Erro', 'Falha ao criar sessão. Tente novamente.');
+      }
+      setLoading(false);
+    }
+  }
 
   const handleLogin = () => {
     // Lógica de autenticação (pode ser substituída com a lógica real)
-    if (email === 'teste@gmail.com' && password === '12345') {
-      Alert.alert('Sucesso', 'Login bem sucedido!');
-      // Navegar para a tela principal após login bem-sucedido
-      navigation.navigate('Main');
-    } else {
-      Alert.alert('Erro', 'E-mail ou Senha inválidos!');
-    }
+    signInWithEmail();
   };
 
   return (
-        <View style={styles.container}>
-            <Image 
+    <View style={styles.container}>
+      <Image 
         source={require('../../assets/login-background.png')} 
         style={styles.image}
+      />
+      <View style={styles.form}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          placeholderTextColor="#aaa"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
-          <View style={styles.form}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="E-mail"
-              placeholderTextColor="#aaa"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Senha"
-              placeholderTextColor="#aaa"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Entrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.registerText}>Não possue uma conta? Cadastre-se</Text>
-            </TouchableOpacity>
-            </View>
-        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          placeholderTextColor="#aaa"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.registerText}>Não possui uma conta? Cadastre-se</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -62,7 +83,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   form: {
-    position:'relative',
+    position: 'relative',
     marginTop: 20,
     padding: 20,
   },

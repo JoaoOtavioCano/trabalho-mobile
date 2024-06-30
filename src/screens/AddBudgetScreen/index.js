@@ -2,19 +2,32 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; // npm install @react-native-picker/picker
 import { Ionicons } from '@expo/vector-icons'; // npm install @expo/vector-icons
+import { useSession } from '../../../App';
+import { supabase } from '../../../lib/supabase';
+
 
 const AddBudgetScreen = ({ navigation }) => {
 
   const [budgetName, setBudgetName] = useState('');
   const [budgetFrequency, setBudgetFrequency] = useState('');
   const [amount, setAmount] = useState('');
+  const session = useSession();
 
-  const handleAddBudget = () => {
+  async function handleAddBudget(){
     if (!budgetName.trim() || !budgetFrequency.trim() || !amount.trim()) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
     }
 
+    const { error } = await supabase
+    .from('budgets')
+    .insert({ user_id: session?.user?.id, budget_name: budgetName, budget_limit_value: amount})
+
+    if (error){
+      Alert.alert('Erro', 'Erro ao inserir dados. Tente novamente.');
+      navigation.navigate('Budgets');
+      return;
+    }
     // Simulação de adicionar budget
     Alert.alert('Sucesso', 'Orçamento Adicionado!');
     navigation.navigate('Budgets');
@@ -65,7 +78,7 @@ const AddBudgetScreen = ({ navigation }) => {
           value={amount}
           onChangeText={text => setAmount(text)}
         />
-        <TouchableOpacity
+        <TouchableOpacity 
           style={[styles.addButton, (!budgetName.trim() || !budgetFrequency.trim() || !isValidAmount(amount)) && { backgroundColor: '#ccc' }]}
           onPress={handleAddBudget}
           disabled={!budgetName.trim() || !budgetFrequency.trim() || !isValidAmount(amount)}

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+
 const BankAccountsScreen = ({ navigation }) => {
   const bankAccounts = [
     { id: '1', name: 'A Bank Account' },

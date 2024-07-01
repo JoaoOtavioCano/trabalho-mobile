@@ -1,13 +1,40 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useSession } from '../../../App';
+import { supabase } from '../../../lib/supabase';
 
 const BudgetsScreen = ({ navigation }) => {
-  const budgets = [
-    { id: '1', name: 'Alimentação', amountLeft: 'R$100', icon: <Ionicons name="fast-food" size={24} color="red" /> },
-    { id: '2', name: 'Assinaturas', amountLeft: 'R$20', icon: <MaterialIcons name="ondemand-video" size={24} color="blue" /> },
-    { id: '3', name: 'Investimentos', amountLeft: 'R$0', icon: <FontAwesome5 name="money-bill" size={24} color="green" /> },
-  ];
+  const session = useSession();
+  const [budgets, setBudgets] = useState([]);
+
+  useEffect(() => {
+    async function fetchBudgets() {
+      const { data, error } = await supabase
+        .from('budgets')
+        .select()
+        .eq('user_id', session?.user.id);
+
+      if (error) {
+        Alert.alert('Algo deu errado. Tente novamente.');
+      } else {
+        // Ícone padrão
+        const defaultIcon = <FontAwesome5 name="money-bill" size={24} color="green" />;
+
+        // Mapeando os dados da resposta e adicionando um ícone padrão
+        const budgetsData = data.map((item, index) => ({
+          id: (index + 1).toString(), // Gerando IDs dinamicamente a partir do índice
+          name: item.budget_name,
+          amountLeft: 'R$' + item.budget_limit_value,
+          icon: defaultIcon,
+        }));
+
+        setBudgets(budgetsData);
+      }
+    }
+
+    fetchBudgets();
+  }, [session]);
 
   const renderItem = ({ item }) => (
     <View style={styles.budgetItem}>

@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // npm install @expo/vector-icons
+import { useSession } from '../../../App';
+import { supabase } from '../../../lib/supabase';
+
 
 const AddBankScreen = ({ navigation }) => {
 
   const [nomeBanco, setNomeBanco] = useState('');
   const [saldo, setSaldo] = useState('');
+  const session = useSession();
 
-  const handleAddBank = () => {
+  async function handleAddBank(){
     if (!nomeBanco.trim() || !saldo.trim()) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
+
+    
+    const { error } = await supabase
+    .from('user_bank_account')
+    .insert({ user_id: session?.user?.id, bank_account_number: nomeBanco, current_balance: saldo, balance_currency: 'Real'})
+
+    if (error){
+      Alert.alert('Erro', 'Erro ao inserir dados. Tente novamente.');
+      navigation.navigate('Budgets');
       return;
     }
 

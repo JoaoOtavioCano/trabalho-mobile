@@ -1,16 +1,46 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSession } from '../../../App';
+import { supabase } from '../../../lib/supabase';
 
 const BankAccountsScreen = ({ navigation }) => {
-  const bankAccounts = [
-    { id: '1', name: 'A Bank Account' },
-  ];
+  const session = useSession();
+  const [bankAccounts, setBankAccounts] = useState([]);
+
+  useEffect(() => {
+    async function fetchBankAccounts() {
+      const { data, error } = await supabase
+        .from('user_bank_account')
+        .select()
+        .eq('user_id', session?.user.id);
+
+      if (error) {
+        Alert.alert('Algo deu errado. Tente novamente.');
+      } else {
+        // Ícone padrão
+        const defaultIcon = <MaterialCommunityIcons name="bank" size={24} color="black" />;
+
+        // Mapeando os dados da resposta e adicionando um ícone padrão
+        const bankAccountsData = data.map((item, index) => ({
+          id: (index + 1).toString(), // Gerando IDs dinamicamente a partir do índice
+          name: item.bank_account_number,
+          balance: 'R$'+item.current_balance,
+          icon: defaultIcon,
+        }));
+
+        setBankAccounts(bankAccountsData);
+      }
+    }
+
+    fetchBankAccounts();
+  }, [session]);
 
   const renderItem = ({ item }) => (
     <View style={styles.bankAccountItem}>
-      <MaterialCommunityIcons name="bank" size={24} color="black" />
+      {item.icon}
       <Text style={styles.bankAccountName}>{item.name}</Text>
+      <Text style={styles.bankAccountBalance}>{item.balance}</Text>
     </View>
   );
 
@@ -72,6 +102,11 @@ const styles = StyleSheet.create({
   },
   bankAccountName: {
     marginLeft: 16,
+    fontSize: 16,
+    color: '#333',
+  },
+  bankAccountBalance: {
+    marginLeft: 'auto',
     fontSize: 16,
     color: '#333',
   },

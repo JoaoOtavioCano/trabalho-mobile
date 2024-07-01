@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react
 import { Ionicons, FontAwesome5, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
+import { useSession } from '../../../App';
 
 const MainScreen = ({ navigation }) => {
+  const session = useSession();
+
   const transactions = [
     { id: '1', bank: 'Bank of generics', amount: '- R$5,000.00', date: 'Hoje' },
     { id: '2', bank: 'Bank of generics', amount: '+ R$256.00', date: 'Hoje' },
@@ -31,7 +34,7 @@ const MainScreen = ({ navigation }) => {
   );
 
   const logoutUser = () => {
-    navigation.navigate('Login')
+    navigation.navigate('Login');
     Alert.alert('Logout', 'Sessão encerrada.');
   };
 
@@ -46,14 +49,13 @@ const MainScreen = ({ navigation }) => {
               <TouchableOpacity onPress={logoutUser}>
                 <MaterialCommunityIcons name="logout" size={30} color="white" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
+              <TouchableOpacity onPress={() => Alert.alert('Notificações indisponíveis')}>
                 <Ionicons name="notifications" size={30} color="white" />
               </TouchableOpacity>
             </View>
             <View style={styles.greetingContainer}>
-              <Text style={styles.greeting}>Bem-vindo, Usuário!</Text>
+              <Text style={styles.greeting}>Bem-vindo, {session?.user?.user_metadata.full_name || 'Usuário'}!</Text>
             </View>
-
             <View style={styles.summaryContainer}>
               <View style={styles.summaryHeader}>
                 <Text style={styles.summaryTitle}>1 Conta Bancária</Text>
@@ -84,31 +86,29 @@ const MainScreen = ({ navigation }) => {
                 }}
               />
             </View>
-
-          <View style={styles.budgetContainer}>
-            <View style={styles.transactionHeader}>
-              <Text style={styles.transactionTitle}>Orçamentos</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Budgets')}>
-                <Ionicons name="chevron-forward" size={24} color="orange" />
-              </TouchableOpacity>
+            <View style={styles.budgetContainer}>
+              <View style={styles.transactionHeader}>
+                <Text style={styles.transactionTitle}>Orçamentos</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Budgets')}>
+                  <Ionicons name="chevron-forward" size={24} color="orange" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.budgetHeader}>
+                <Ionicons name="fast-food" size={24} color="red" />
+                <Text style={styles.budgetText}>Alimentação</Text>
+                <Text style={styles.budgetAmount}>R$100 restantes</Text>
+              </View>
+              <View style={styles.budgetHeader}>
+                <MaterialIcons name="ondemand-video" size={24} color="blue" />
+                <Text style={styles.budgetText}>Assinaturas</Text>
+                <Text style={styles.budgetAmount}>R$20 restantes</Text>
+              </View>
+              <View style={styles.budgetHeader}>
+                <FontAwesome5 name="money-bill" size={24} color="green" />
+                <Text style={styles.budgetText}>Investimentos</Text>
+                <Text style={styles.budgetAmount}>R$0 restantes</Text>
+              </View>
             </View>
-            <View style={styles.budgetHeader}>
-              <Ionicons name="fast-food" size={24} color="red" />
-              <Text style={styles.budgetText}>Alimentação</Text>
-              <Text style={styles.budgetAmount}>R$100 restantes</Text>
-            </View>
-            <View style={styles.budgetHeader}>
-              <MaterialIcons name="ondemand-video" size={24} color="blue" />
-              <Text style={styles.budgetText}>Assinaturas</Text>
-              <Text style={styles.budgetAmount}>R$20 restantes</Text>
-            </View>
-            <View style={styles.budgetHeader}>
-              <FontAwesome5 name="money-bill" size={24} color="green" />   
-              <Text style={styles.budgetText}>Investimentos</Text>
-              <Text style={styles.budgetAmount}>R$0 restantes</Text>
-            </View>
-          </View>
-
             <View style={styles.transactionContainer}>
               <View style={styles.transactionHeader}>
                 <Text style={styles.transactionTitle}>Histórico de Transações</Text>
@@ -122,7 +122,6 @@ const MainScreen = ({ navigation }) => {
         renderItem={renderItem}
         ListFooterComponent={<View style={{ height: 100 }} />}
       />
-
       <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('AddTransaction')}>
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
@@ -222,7 +221,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
-
   transactionBank: {
     fontSize: 16,
     marginLeft: 16,
